@@ -1,0 +1,63 @@
+﻿@page
+@model DetectiveGame.Areas.Team.Pages.IndexModel
+@{
+	ViewData["Title"] = "My team";
+}
+<h1>My Team</h1>
+
+@if (Model.Team != null)
+{
+	<h3>Your team: @Model.Team.Name</h3>
+	<h4>@Model.Team.Description</h4>
+
+	<table class="table table-striped table-sm">
+		<thead class="thead-dark">
+			<tr>
+				<th>User Id</th>
+				<th>Name</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var participant in Model.Team.DetectiveTeamParticipants)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => participant.DetectiveGameUser.Id)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => participant.DetectiveGameUser.UserName)
+					</td>
+					<td>
+						@if (participant.DetectiveTeamRole.Id == 1 && Model.IsCurrentUserOwner)
+						{
+							//if owner and it's me
+							<a class="btn btn-secondary mt-2" asp-area="Team" asp-page="/Leave">Leave team</a>
+						}
+						else if(participant.DetectiveTeamRole.Id == 3 && Model.IsCurrentUserOwner)
+						{
+							//if pending and I owner
+							<a class="btn btn-info mt-2" asp-route-id="@participant.Id" asp-area="Team" asp-page="/Approve">Approve</a>
+						}
+						else if(Model.IsCurrentUserOwner)
+						{
+							//if detective and I owner
+							<a class="btn btn-warning mt-2" asp-route-id="@participant.DetectiveGameUser.Id" asp-area="Team" asp-page="/Leave">Exclude</a>
+						}
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+else
+{
+	<div class="container">
+		<p>Looks like you are not joined the team. You can:</p>
+		<div class="d-flex flex-row">
+			<div class="p-2"><a class="btn btn-primary mt-2" asp-area="Team" asp-page="/Create">Create Team</a></div>
+			<div class="p-2 align-self-center">OR</div>
+			<div class="p-2"><a class="btn btn-danger mt-2" asp-area="Team" asp-page="/JoinTeam">Join</a></div>
+		</div>
+	</div>
+}

@@ -3,11 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DetectiveGame", "DetectiveGame\DetectiveGame.csproj", "{75DD73ED-AD69-4C6D-86CC-31C56939A877}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DetectiveGame", "DetectiveGame\DetectiveGame.csproj", "{75DD73ED-AD69-4C6D-86CC-31C56939A877}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.EFCore", "DataAccess.EFCore\DataAccess.EFCore.csproj", "{DD155374-C336-4463-8927-9E0F6823F2B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess.EFCore", "DataAccess.EFCore\DataAccess.EFCore.csproj", "{DD155374-C336-4463-8927-9E0F6823F2B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DetectiveGame.Domain", "DetectiveGame.Domain\DetectiveGame.Domain.csproj", "{159237A8-E4D3-4D32-A54B-6ED2FF2CECC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DetectiveGame.Domain", "DetectiveGame.Domain\DetectiveGame.Domain.csproj", "{159237A8-E4D3-4D32-A54B-6ED2FF2CECC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.Tests", "DataAccess.Tests\DataAccess.Tests.csproj", "{E619BA01-78EB-4EF9-B2A7-C916AF6DC731}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4B40B51D-FC4A-43E8-8D7D-89760CF44595}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +31,16 @@ Global
 		{159237A8-E4D3-4D32-A54B-6ED2FF2CECC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{159237A8-E4D3-4D32-A54B-6ED2FF2CECC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{159237A8-E4D3-4D32-A54B-6ED2FF2CECC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E619BA01-78EB-4EF9-B2A7-C916AF6DC731}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E619BA01-78EB-4EF9-B2A7-C916AF6DC731}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E619BA01-78EB-4EF9-B2A7-C916AF6DC731}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E619BA01-78EB-4EF9-B2A7-C916AF6DC731}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E619BA01-78EB-4EF9-B2A7-C916AF6DC731} = {4B40B51D-FC4A-43E8-8D7D-89760CF44595}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A928F892-E704-4FB3-B30F-D28880D9B517}

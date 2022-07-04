@@ -1,13 +1,19 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DetectiveGame.Domain.Entities
 {
 	public class DetectiveGameUser : IdentityUser
 	{
+		public override bool Equals(object? obj)
+		{
+			return obj is DetectiveGameUser detective
+				&& !string.IsNullOrWhiteSpace(detective.Id)
+				&& Id == detective.Id;
+		}
+
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
 	}
 }

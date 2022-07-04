@@ -16,3 +16,11 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.form-group {
+	margin-bottom: 1em;
+}
+
+.form-floating {
+	margin-bottom: 1em;
+}

@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using DetectiveGame.Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("DetectiveGameContextConnection") ?? throw new InvalidOperationException("Connection string 'DetectiveGameContextConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("ApplicationContext")
+	?? throw new InvalidOperationException("Connection string 'ApplicationContext' not found.");
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
-	options.UseSqlServer(connectionString));;
+	options.UseSqlServer(connectionString));
 
 builder.Services.AddDefaultIdentity<DetectiveGameUser>(options => options.SignIn.RequireConfirmedAccount = true)
 	.AddEntityFrameworkStores<ApplicationContext>();
@@ -15,8 +16,6 @@ builder.Services.AddDefaultIdentity<DetectiveGameUser>(options => options.SignIn
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-builder.Services.AddDbContext<ApplicationContext>(options =>
-	options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationContext")));
 
 DIHelper.RegisterDependecy(builder);
 

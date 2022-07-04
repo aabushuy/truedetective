@@ -4,6 +4,7 @@ using DataAccess.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.EFCore.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220703080357_Teams")]
+    partial class Teams
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,23 +105,14 @@ namespace DataAccess.EFCore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("DetectiveGameUserId")
+                    b.Property<string>("DetectiveId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("DetectiveTeamId")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DetectiveTeamRoleId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DetectiveGameUserId");
-
-                    b.HasIndex("DetectiveTeamId");
-
-                    b.HasIndex("DetectiveTeamRoleId");
 
                     b.ToTable("DetectiveTeamParticipants");
                 });
@@ -197,38 +190,6 @@ namespace DataAccess.EFCore.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("GameIdentityUserToken", (string)null);
-                });
-
-            modelBuilder.Entity("DetectiveGame.Domain.Entities.Team.DetectiveTeamParticipant", b =>
-                {
-                    b.HasOne("DetectiveGame.Domain.Entities.DetectiveGameUser", "DetectiveGameUser")
-                        .WithMany()
-                        .HasForeignKey("DetectiveGameUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DetectiveGame.Domain.Entities.Team.DetectiveTeam", "DetectiveTeam")
-                        .WithMany("DetectiveTeamParticipants")
-                        .HasForeignKey("DetectiveTeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DetectiveGame.Domain.Entities.Team.DetectiveTeamRole", "DetectiveTeamRole")
-                        .WithMany()
-                        .HasForeignKey("DetectiveTeamRoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DetectiveGameUser");
-
-                    b.Navigation("DetectiveTeam");
-
-                    b.Navigation("DetectiveTeamRole");
-                });
-
-            modelBuilder.Entity("DetectiveGame.Domain.Entities.Team.DetectiveTeam", b =>
-                {
-                    b.Navigation("DetectiveTeamParticipants");
                 });
 #pragma warning restore 612, 618
         }
