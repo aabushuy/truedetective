@@ -11,6 +11,7 @@ using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
 using DetectiveGame.Domain.Entities;
+using DetectiveGame.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -24,17 +25,17 @@ namespace DetectiveGame.Areas.Identity.Pages.Account
 {
 	public class RegisterModel : PageModel
 	{
-		private readonly SignInManager<DetectiveGameUser> _signInManager;
-		private readonly UserManager<DetectiveGameUser> _userManager;
-		private readonly IUserStore<DetectiveGameUser> _userStore;
-		private readonly IUserEmailStore<DetectiveGameUser> _emailStore;
+		private readonly SignInManager<SiteUser> _signInManager;
+		private readonly UserManager<SiteUser> _userManager;
+		private readonly IUserStore<SiteUser> _userStore;
+		private readonly IUserEmailStore<SiteUser> _emailStore;
 		private readonly ILogger<RegisterModel> _logger;
 		private readonly IEmailSender _emailSender;
 
 		public RegisterModel(
-			UserManager<DetectiveGameUser> userManager,
-			IUserStore<DetectiveGameUser> userStore,
-			SignInManager<DetectiveGameUser> signInManager,
+			UserManager<SiteUser> userManager,
+			IUserStore<SiteUser> userStore,
+			SignInManager<SiteUser> signInManager,
 			ILogger<RegisterModel> logger,
 			IEmailSender emailSender)
 		{
@@ -71,6 +72,11 @@ namespace DetectiveGame.Areas.Identity.Pages.Account
 		/// </summary>
 		public class InputModel
 		{
+			[Required]
+			[StringLength(32, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
+			[Display(Name = "Name")]
+			public string UserName { get; set; }
+
 			/// <summary>
 			///	 This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
 			///	 directly from your code. This API may change or be removed in future releases.
@@ -115,7 +121,7 @@ namespace DetectiveGame.Areas.Identity.Pages.Account
 			{
 				var user = CreateUser();
 
-				await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+				await _userStore.SetUserNameAsync(user, Input.UserName, CancellationToken.None);
 				await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 				var result = await _userManager.CreateAsync(user, Input.Password);
 
@@ -155,27 +161,27 @@ namespace DetectiveGame.Areas.Identity.Pages.Account
 			return Page();
 		}
 
-		private DetectiveGameUser CreateUser()
+		private SiteUser CreateUser()
 		{
 			try
 			{
-				return Activator.CreateInstance<DetectiveGameUser>();
+				return Activator.CreateInstance<SiteUser>();
 			}
 			catch
 			{
-				throw new InvalidOperationException($"Can't create an instance of '{nameof(DetectiveGameUser)}'. " +
-					$"Ensure that '{nameof(DetectiveGameUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+				throw new InvalidOperationException($"Can't create an instance of '{nameof(SiteUser)}'. " +
+					$"Ensure that '{nameof(SiteUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
 					$"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
 			}
 		}
 
-		private IUserEmailStore<DetectiveGameUser> GetEmailStore()
+		private IUserEmailStore<SiteUser> GetEmailStore()
 		{
 			if (!_userManager.SupportsUserEmail)
 			{
 				throw new NotSupportedException("The default UI requires a user store with email support.");
 			}
-			return (IUserEmailStore<DetectiveGameUser>)_userStore;
+			return (IUserEmailStore<SiteUser>)_userStore;
 		}
 	}
 }

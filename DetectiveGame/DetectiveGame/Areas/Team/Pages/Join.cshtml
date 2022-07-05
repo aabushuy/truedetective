@@ -1,0 +1,15 @@
+﻿@page
+@model DetectiveGame.Areas.Team.Pages.JoinModel
+@{
+}
+@if(Model.Result.IsSuccess)
+{
+	<p>Your request has been sent to the team leader of [@Model.Team.Name].</p>
+	<p>Once approved, you will join the team.</p>
+	<br />
+	<a class="btn btn-info" asp-area="Team" asp-page="./Index">Back to my team</a>
+}
+else
+{
+	<div asp-validation-summary="All" class="text-danger">@Model.Result.Message</div>
+}

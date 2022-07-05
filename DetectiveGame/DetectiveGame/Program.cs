@@ -2,6 +2,7 @@ using DataAccess.EFCore;
 using DetectiveGame.Helpers;
 using Microsoft.EntityFrameworkCore;
 using DetectiveGame.Domain.Entities;
+using DetectiveGame.Domain.Entities.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ApplicationContext")
@@ -10,7 +11,7 @@ var connectionString = builder.Configuration.GetConnectionString("ApplicationCon
 builder.Services.AddDbContext<ApplicationContext>(options =>
 	options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<DetectiveGameUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<SiteUser>(options => options.SignIn.RequireConfirmedAccount = true)
 	.AddEntityFrameworkStores<ApplicationContext>();
 
 // Add services to the container.

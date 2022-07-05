@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using DetectiveGame.Domain.Entities;
+using DetectiveGame.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -19,10 +20,10 @@ namespace DetectiveGame.Areas.Identity.Pages.Account
 {
 	public class ForgotPasswordModel : PageModel
 	{
-		private readonly UserManager<DetectiveGameUser> _userManager;
+		private readonly UserManager<SiteUser> _userManager;
 		private readonly IEmailSender _emailSender;
 
-		public ForgotPasswordModel(UserManager<DetectiveGameUser> userManager, IEmailSender emailSender)
+		public ForgotPasswordModel(UserManager<SiteUser> userManager, IEmailSender emailSender)
 		{
 			_userManager = userManager;
 			_emailSender = emailSender;

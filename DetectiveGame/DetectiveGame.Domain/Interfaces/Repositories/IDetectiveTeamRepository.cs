@@ -4,5 +4,6 @@ namespace DetectiveGame.Domain.Interfaces.Repositories
 {
 	public interface IDetectiveTeamRepository : IGenericRepository<DetectiveTeam>
 	{
+		DetectiveTeam GetFullTeamInfo(DetectiveTeam detectiveTeam);
 	}
 }

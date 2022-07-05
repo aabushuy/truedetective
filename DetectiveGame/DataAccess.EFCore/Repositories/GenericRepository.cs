@@ -1,5 +1,4 @@
-﻿using DetectiveGame.Domain.Interfaces;
-using DetectiveGame.Domain.Interfaces.Repositories;
+﻿using DetectiveGame.Domain.Interfaces.Repositories;
 using System.Linq.Expressions;
 
 namespace DataAccess.EFCore.Repositories

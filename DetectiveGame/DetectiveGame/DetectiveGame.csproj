@@ -20,6 +20,7 @@
 
   <ItemGroup>
 	<ProjectReference Include="..\DataAccess.EFCore\DataAccess.EFCore.csproj" />
+	<ProjectReference Include="..\DetectiveGame.BusinessLogic\DetectiveGame.BusinessLogic.csproj" />
 	<ProjectReference Include="..\DetectiveGame.Domain\DetectiveGame.Domain.csproj" />
   </ItemGroup>
 

@@ -1,5 +1,30 @@
 ﻿@page
 @model DetectiveGame.Areas.Team.Pages.ApproveModel
 @{
+	ViewData["Title"] = "Approve Team Member";
 }
-<h3>Something went wrong. Try again later.</h3>
+
+@if(!Model.IsApproved)
+{
+	if (@Model.ApproveDetective != null)
+	{
+		<h3>Would you like to add a new team member @Model.ApproveDetective.User.NormalizedUserName?</h3>
+	}
+	<div class="row">
+		<div class="col-md-4">
+			<section>
+				<form id="team" method="post">
+					<div asp-validation-summary="All" class="text-danger"></div>
+					<div>
+						<button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Do approve</button>
+					</div>
+				</form>
+			</section>
+		</div>
+	</div>
+}
+else
+{
+	<h3>Approved.</h3>
+	<a class="btn btn-info" asp-area="Team" asp-page="./Index">Back to my team</a>
+}

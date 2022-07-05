@@ -1,6 +1,7 @@
 ﻿using DetectiveGame.Domain.Entities.Team;
 using DetectiveGame.Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace DataAccess.EFCore.Repositories
 {
@@ -10,15 +11,22 @@ namespace DataAccess.EFCore.Repositories
 		{
 		}
 
-		public override DetectiveTeam GetById(int id)
+		public override IEnumerable<DetectiveTeam> Find(Expression<Func<DetectiveTeam, bool>> expression)
 		{
 			return _context.Set<DetectiveTeam>()
-				.Where(dt => dt.Id == id)
-				.Include(dt => dt.DetectiveTeamParticipants)
-				.ThenInclude(tp => tp.DetectiveTeamRole)
-				.Include(tp => tp.DetectiveTeamParticipants)
-				.ThenInclude(dt => dt.DetectiveGameUser)
-				.First();
+				.Where(expression)
+				.Include(d => d.Detectives);
+		}
+
+		public DetectiveTeam GetFullTeamInfo(DetectiveTeam detectiveTeam)
+		{
+			detectiveTeam.Detectives = _context.Set<Detective>()
+				.Where(d => d.TeamId == detectiveTeam.Id)
+				.Include(d => d.Team)
+				.Include(d => d.User)
+				.ToList();
+
+			return detectiveTeam;
 		}
 	}
 }

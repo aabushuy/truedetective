@@ -6,6 +6,7 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 using DetectiveGame.Domain.Entities;
+using DetectiveGame.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -18,10 +19,10 @@ namespace DetectiveGame.Areas.Identity.Pages.Account
 	[AllowAnonymous]
 	public class RegisterConfirmationModel : PageModel
 	{
-		private readonly UserManager<DetectiveGameUser> _userManager;
+		private readonly UserManager<SiteUser> _userManager;
 		private readonly IEmailSender _sender;
 
-		public RegisterConfirmationModel(UserManager<DetectiveGameUser> userManager, IEmailSender sender)
+		public RegisterConfirmationModel(UserManager<SiteUser> userManager, IEmailSender sender)
 		{
 			_userManager = userManager;
 			_sender = sender;

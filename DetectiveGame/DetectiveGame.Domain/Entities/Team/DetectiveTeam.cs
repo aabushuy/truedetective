@@ -6,13 +6,16 @@
 
 		public string Name { get; set; }
 
-		public string Description { get; set; }
+		public List<Detective> Detectives { get; set; }
 
-		public List<DetectiveTeamParticipant> DetectiveTeamParticipants { get; set; }
-
-		public DetectiveTeam()
+		public override bool Equals(object? obj)
 		{
-			DetectiveTeamParticipants = new List<DetectiveTeamParticipant>();
+			return obj is DetectiveTeam detectiveTeam && Id == detectiveTeam.Id;
+		}
+
+		public override int GetHashCode()
+		{
+			return Id.GetHashCode();
 		}
 	}
 }

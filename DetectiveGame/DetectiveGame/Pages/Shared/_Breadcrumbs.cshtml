@@ -1,0 +1,19 @@
+﻿@model List<DetectiveGame.Domain.Entities.Breadcrumb>
+
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb  align-items-center">
+		@foreach (var breadcrumb in Model)
+		{
+			if (breadcrumb.IsActive)
+			{
+				 <li class="breadcrumb-item active" aria-current="page">@breadcrumb.LinkName</li>
+			}
+			else
+			{
+				<li class="breadcrumb-item">
+					<a class="nav-link" asp-area="@breadcrumb.AspArea" asp-page="@breadcrumb.AspPage">@breadcrumb.LinkName</a>
+				</li>
+			}
+		}
+	</ol>
+</nav>

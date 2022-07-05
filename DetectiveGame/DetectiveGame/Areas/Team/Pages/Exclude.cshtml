@@ -1,0 +1,28 @@
+﻿@page
+@model DetectiveGame.Areas.Team.Pages.ExcludeModel
+@{
+	ViewData["Title"] = "Exclude Team Member";
+}
+
+@if(!Model.IsExcluded)
+{
+	<h3>Would you like to fire your team member?</h3>
+
+	<div class="row">
+		<div class="col-md-4">
+			<section>
+				<form id="team" method="post">
+					<div asp-validation-summary="All" class="text-danger"></div>
+					<div>
+						<button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Do fire</button>
+					</div>
+				</form>
+			</section>
+		</div>
+	</div>
+}
+else
+{
+	<h3>You have fired the team member.</h3>
+	<a class="btn btn-info" asp-area="Team" asp-page="./Index">Back to my team</a>
+}

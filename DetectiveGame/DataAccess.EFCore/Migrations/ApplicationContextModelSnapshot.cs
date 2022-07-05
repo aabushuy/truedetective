@@ -22,7 +22,7 @@ namespace DataAccess.EFCore.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("DetectiveGame.Domain.Entities.DetectiveGameUser", b =>
+            modelBuilder.Entity("DetectiveGame.Domain.Entities.Identity.SiteUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -60,6 +60,9 @@ namespace DataAccess.EFCore.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -71,7 +74,37 @@ namespace DataAccess.EFCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DetectiveGameUsers");
+                    b.ToTable("SiteUsers");
+                });
+
+            modelBuilder.Entity("DetectiveGame.Domain.Entities.Team.Detective", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<bool>("IsAwaiting")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsOwner")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SiteUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("TeamId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SiteUserId");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("Detectives");
                 });
 
             modelBuilder.Entity("DetectiveGame.Domain.Entities.Team.DetectiveTeam", b =>
@@ -82,10 +115,6 @@ namespace DataAccess.EFCore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -93,69 +122,6 @@ namespace DataAccess.EFCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DetectiveTeams");
-                });
-
-            modelBuilder.Entity("DetectiveGame.Domain.Entities.Team.DetectiveTeamParticipant", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("DetectiveGameUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("DetectiveTeamId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DetectiveTeamRoleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DetectiveGameUserId");
-
-                    b.HasIndex("DetectiveTeamId");
-
-                    b.HasIndex("DetectiveTeamRoleId");
-
-                    b.ToTable("DetectiveTeamParticipants");
-                });
-
-            modelBuilder.Entity("DetectiveGame.Domain.Entities.Team.DetectiveTeamRole", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DetectiveTeamRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "owner"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "detective"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "pending"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -177,7 +143,7 @@ namespace DataAccess.EFCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GameIdentityUserClaim", (string)null);
+                    b.ToTable("SiteIdentityUserClaim", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -196,39 +162,29 @@ namespace DataAccess.EFCore.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("GameIdentityUserToken", (string)null);
+                    b.ToTable("SiteIdentityUserToken", (string)null);
                 });
 
-            modelBuilder.Entity("DetectiveGame.Domain.Entities.Team.DetectiveTeamParticipant", b =>
+            modelBuilder.Entity("DetectiveGame.Domain.Entities.Team.Detective", b =>
                 {
-                    b.HasOne("DetectiveGame.Domain.Entities.DetectiveGameUser", "DetectiveGameUser")
+                    b.HasOne("DetectiveGame.Domain.Entities.Identity.SiteUser", "User")
                         .WithMany()
-                        .HasForeignKey("DetectiveGameUserId")
+                        .HasForeignKey("SiteUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DetectiveGame.Domain.Entities.Team.DetectiveTeam", "DetectiveTeam")
-                        .WithMany("DetectiveTeamParticipants")
-                        .HasForeignKey("DetectiveTeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("DetectiveGame.Domain.Entities.Team.DetectiveTeam", "Team")
+                        .WithMany("Detectives")
+                        .HasForeignKey("TeamId");
 
-                    b.HasOne("DetectiveGame.Domain.Entities.Team.DetectiveTeamRole", "DetectiveTeamRole")
-                        .WithMany()
-                        .HasForeignKey("DetectiveTeamRoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Team");
 
-                    b.Navigation("DetectiveGameUser");
-
-                    b.Navigation("DetectiveTeam");
-
-                    b.Navigation("DetectiveTeamRole");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DetectiveGame.Domain.Entities.Team.DetectiveTeam", b =>
                 {
-                    b.Navigation("DetectiveTeamParticipants");
+                    b.Navigation("Detectives");
                 });
 #pragma warning restore 612, 618
         }

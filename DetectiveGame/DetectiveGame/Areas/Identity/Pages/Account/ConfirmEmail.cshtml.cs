@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DetectiveGame.Domain.Entities;
+using DetectiveGame.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +18,9 @@ namespace DetectiveGame.Areas.Identity.Pages.Account
 {
 	public class ConfirmEmailModel : PageModel
 	{
-		private readonly UserManager<DetectiveGameUser> _userManager;
+		private readonly UserManager<SiteUser> _userManager;
 
-		public ConfirmEmailModel(UserManager<DetectiveGameUser> userManager)
+		public ConfirmEmailModel(UserManager<SiteUser> userManager)
 		{
 			_userManager = userManager;
 		}
